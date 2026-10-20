@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navkirat Singh — Graphic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --amber: #D4862A;
+    --amber-light: #E8A94A;
+    --cream: #F5EDD8;
+    --terracotta: #C4614A;
+    --terracotta-muted: #A8523E;
+
+    --bg: #0E0C0A;
+    --bg2: #141210;
+    --bg3: #1C1915;
+    --surface: #211E1A;
+    --border: #2E2922;
+    --text: #EDE5D4;
+    --text-muted: #8A7F6E;
+    --text-faint: #524C42;
+    --accent: var(--amber);
+  }
+
+  [data-theme="light"] {
+    --bg: #F7F2EA;
+    --bg2: #F0E9DC;
+    --bg3: #EAE0CF;
+    --surface: #E8DFD0;
+    --border: #D4C9B4;
+    --text: #1A1713;
+    --text-muted: #6B5F4E;
+    --text-faint: #B0A692;
+    --accent: var(--terracotta);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    cursor: none;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+
+  /* ── Custom Cursor ── */
+  #cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background 0.3s;
+    mix-blend-mode: normal;
+  }
+  #cursor-ring {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease-out, width 0.2s, height 0.2s, border-color 0.3s, opacity 0.3s;
+    opacity: 0.5;
+  }
+  body:hover #cursor { opacity: 1; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ── Layout ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+    transition: background 0.4s, backdrop-filter 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(14,12,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  [data-theme="light"] nav.scrolled {
+    background: rgba(247,242,234,0.85);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    white-space: nowrap;
+    font-display: swap;
+    /* Fixed width = full text "N.SINGH" so animation never shifts layout */
+    min-width: 80px;
+    display: inline-block;
+  }
+  .nav-logo span { color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 700; }
+  .nav-logo .cursor-blink {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: var(--accent);
+    margin-left: 1px;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+    font-family: inherit;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* Theme toggle */
+  .theme-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .theme-btn:hover { border-color: var(--accent); color: var(--text); background: var(--surface); }
+
+  /* ── Hero ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 100px;
+    padding-top: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(120px, 18vw, 260px);
+    font-weight: 300;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--border);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.02em;
+    opacity: 0.6;
+    display: flex;
+  }
+  .dl {
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--border);
+  }
+  /* Each letter gets its own float keyframe with unique Y range and timing */
+  .dl:nth-child(1) { animation: floatD 14s ease-in-out infinite; }
+  .dl:nth-child(2) { animation: floatE 17s ease-in-out infinite 2.3s; }
+  .dl:nth-child(3) { animation: floatS 19s ease-in-out infinite 1.1s; }
+  .dl:nth-child(4) { animation: floatI 15s ease-in-out infinite 4.2s; }
+  .dl:nth-child(5) { animation: floatG 21s ease-in-out infinite 0.8s; }
+  .dl:nth-child(6) { animation: floatN 16s ease-in-out infinite 3.5s; }
+
+  @keyframes floatD {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    40%     { transform: translateY(-8px) rotate(-0.2deg); }
+    70%     { transform: translateY(5px) rotate(0.1deg); }
+  }
+  @keyframes floatE {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    35%     { transform: translateY(-6px) rotate(0.15deg); }
+    65%     { transform: translateY(7px) rotate(-0.1deg); }
+  }
+  @keyframes floatS {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    30%     { transform: translateY(6px) rotate(0.2deg); }
+    60%     { transform: translateY(-9px) rotate(-0.15deg); }
+  }
+  @keyframes floatI {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    45%     { transform: translateY(-7px) rotate(-0.2deg); }
+    75%     { transform: translateY(4px) rotate(0.1deg); }
+  }
+  @keyframes floatG {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    25%     { transform: translateY(5px) rotate(0.1deg); }
+    55%     { transform: translateY(-10px) rotate(-0.2deg); }
+    80%     { transform: translateY(3px) rotate(0.05deg); }
+  }
+  @keyframes floatN {
+    0%,100% { transform: translateY(0px) rotate(0deg); }
+    40%     { transform: translateY(-6px) rotate(0.15deg); }
+    70%     { transform: translateY(8px) rotate(-0.1deg); }
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 8vw, 110px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.35s forwards;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 380px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.5s forwards;
+    margin-bottom: 48px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.65s forwards;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: transform 0.2s, background 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .btn-primary:hover { background: var(--amber-light); transform: translateY(-2px); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.2s;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+  }
+  .btn-secondary:hover { color: var(--text); border-color: var(--text-muted); }
+
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-faint);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeIn 1s 0.8s forwards;
+  }
+  .hero-stats-left {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeIn 1s 0.9s forwards;
+  }
+  .stat { text-align: right; }
+  .stat-left { text-align: left; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* ── Section Styles ── */
+  section { padding: 120px 0; }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 60px;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 40px;
+  }
+
+  /* ── Work / Projects ── */
+  #work { background: var(--bg); }
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    background: var(--surface);
+    cursor: none;
+  }
+  .work-item.tall { aspect-ratio: 3/4; }
+  .work-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
+
+  .work-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .work-item:hover .work-placeholder { transform: scale(1.04); }
+
+  .work-placeholder svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.15;
+  }
+
+  /* unique placeholder backgrounds */
+  .work-item:nth-child(1) .work-placeholder { background: linear-gradient(135deg, #1a1410 0%, #2a1f14 50%, #1a1410 100%); }
+  .work-item:nth-child(1) .work-placeholder svg { opacity: 0.2; color: var(--amber); }
+  .work-item:nth-child(2) .work-placeholder { background: linear-gradient(220deg, #160f0e 0%, #261915 100%); }
+  .work-item:nth-child(3) .work-placeholder { background: linear-gradient(160deg, #0f130f 0%, #1a2218 100%); }
+  .work-item:nth-child(4) .work-placeholder { background: linear-gradient(90deg, #100e14 0%, #1a1520 100%); }
+
+  .work-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,8,6,0.95) 0%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .work-item:hover .work-overlay { opacity: 1; transform: translateY(0); }
+
+  .work-category {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .work-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 4px;
+  }
+  .work-desc {
+    font-size: 11px;
+    color: rgba(245, 237, 216, 0.6);
+    line-height: 1.6;
+  }
+  .work-number {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+
+  /* Placeholder art */
+  .ph-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 300;
+    letter-spacing: -0.05em;
+    color: var(--text-faint);
+    font-style: italic;
+    user-select: none;
+  }
+
+  /* ── Categories ── */
+  #categories { background: var(--bg2); }
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .category-card {
+    display: block;
+    background: var(--bg2);
+    padding: 48px 32px;
+    cursor: none;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .category-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .category-card:hover { background: var(--surface); }
+  .category-card:hover::after { transform: scaleX(1); }
+  .cat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    color: var(--text-faint);
+    line-height: 1;
+    margin-bottom: 20px;
+    transition: color 0.3s;
+  }
+  .category-card:hover .cat-num { color: var(--accent); }
+  .cat-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .cat-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── About ── */
+  #about { background: var(--bg); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .about-visual-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, var(--bg3) 0%, var(--surface) 50%, #1f1208 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .about-monogram {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px;
+    font-weight: 300;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--accent);
+    opacity: 0.4;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    user-select: none;
+  }
+  .about-accent-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--terracotta), var(--amber));
+  }
+  .about-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.6;
+  }
+
+  .about-content { padding-top: 8px; }
+  .about-intro {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--text);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+  .about-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 40px;
+  }
+  .about-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  .about-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .detail-item { }
+  .detail-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .detail-value {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Contact ── */
+  #contact { background: var(--bg2); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-left h2 { margin-bottom: 24px; }
+  .contact-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 40px;
+  }
+  .contact-email {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 32px;
+    font-style: italic;
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    transition: color 0.2s;
+  }
+  .contact-email:hover { color: var(--amber-light); }
+
+  .social-links {
+    display: flex;
+    gap: 20px;
+  }
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: none;
+  }
+  .social-link:hover { color: var(--accent); }
+
+  .contact-form-area {
+    background: var(--surface);
+    padding: 40px;
+    border: 1px solid var(--border);
+  }
+  .form-field {
+    margin-bottom: 24px;
+  }
+  .form-label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .form-input, .form-textarea {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+    cursor: none;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--accent); }
+  .form-textarea { height: 100px; }
+  .form-submit {
+    width: 100%;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    padding: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s, transform 0.2s;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  }
+  .form-submit:hover { background: var(--amber-light); transform: translateY(-1px); }
+
+  /* ── Footer ── */
+  footer {
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .footer-copy {
+    font-size: 11px;
+    color: var(--text-faint);
+  }
+  .footer-copy span { color: var(--accent); }
+  .footer-back {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-back:hover { color: var(--text-muted); }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 1; }
+    50% { transform: scaleY(0.6); opacity: 0.4; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── Page switching ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Gallery hero ── */
+  .gallery-hero { padding: 160px 0 80px; }
+  .gallery-back {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint);
+    text-decoration: none; margin-bottom: 32px; cursor: none; transition: color 0.2s, gap 0.2s;
+  }
+  .gallery-back:hover { color: var(--accent); gap: 12px; }
+  .gallery-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--accent);
+    letter-spacing: 0.1em; margin-bottom: 16px;
+  }
+  .gallery-hero h1 {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(48px, 7vw, 96px);
+    line-height: 1.02; letter-spacing: -0.01em; margin-bottom: 24px;
+  }
+  .gallery-hero h1 em { font-style: italic; color: var(--accent); }
+  .gallery-hero p { font-size: 13px; color: var(--text-muted); max-width: 480px; line-height: 1.8; }
+
+  /* ── Thumbnail grid ── */
+  .thumb-section { padding: 0 0 140px; }
+  .thumb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .thumb {
+    position: relative; aspect-ratio: 4/5; cursor: none; overflow: hidden;
+    border: 1px solid var(--border); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s;
+  }
+  .thumb:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .thumb-mark {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(28px, 4vw, 44px); color: var(--text-faint); user-select: none;
+    transition: color 0.3s, transform 0.4s;
+  }
+  .thumb:hover .thumb-mark { color: var(--accent); transform: scale(1.08); }
+  .thumb-number {
+    position: absolute; top: 16px; right: 16px; font-family: 'Cormorant Garamond', serif;
+    font-size: 11px; color: var(--text-faint); letter-spacing: 0.1em;
+  }
+  .thumb:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 2000; display: flex; align-items: center;
+    justify-content: center; background: rgba(8, 6, 5, 0.92); opacity: 0; pointer-events: none;
+    transition: opacity 0.35s ease; padding: 40px;
+  }
+  [data-theme="light"] .lightbox { background: rgba(247, 242, 234, 0.96); }
+  .lightbox.open { opacity: 1; pointer-events: auto; }
+  .lightbox-inner {
+    max-width: 880px; width: 100%; display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px;
+    align-items: center; transform: translateY(24px); opacity: 0; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.45s;
+  }
+  .lightbox.open .lightbox-inner { transform: translateY(0); opacity: 1; }
+  .lightbox-art { aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+  .lightbox-art .ph-art { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: clamp(50px, 8vw, 90px); color: var(--text-faint); }
+  .lightbox-meta-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .lightbox-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 38px); font-weight: 400; color: var(--text); margin-bottom: 14px; line-height: 1.1; }
+  .lightbox-desc { font-size: 12px; color: var(--text-muted); line-height: 1.8; max-width: 320px; }
+  .lightbox-close {
+    position: absolute; top: 28px; right: 28px; width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--border); background: transparent; color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; cursor: none;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .lightbox-close:hover { color: var(--accent); border-color: var(--accent); transform: rotate(90deg); }
+  .lightbox-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px;
+    border-radius: 50%; border: 1px solid var(--border); background: transparent; color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center; cursor: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .lightbox-nav:hover { color: var(--accent); border-color: var(--accent); }
+  .lightbox-prev { left: 28px; }
+  .lightbox-next { right: 28px; }
+
+  /* Responsive */
+  /* ── Tablet (max 900px) ── */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    nav { padding: 20px 24px; }
+    .nav-links { gap: 20px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-item.wide { grid-column: span 1; aspect-ratio: 4/3; }
+    .categories-grid { grid-template-columns: 1fr 1fr; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats, .hero-stats-left { display: none; }
+    h1 { font-size: clamp(44px, 10vw, 70px); }
+    .thumb-grid { grid-template-columns: repeat(2, 1fr); }
+    .lightbox-inner { grid-template-columns: 1fr; gap: 24px; }
+    .lightbox-nav { display: none; }
+  }
+  @media (max-width: 600px) {
+    .categories-grid { grid-template-columns: 1fr; }
+    /* Nav: prevent typewriter from wrapping or pushing icons */
+    nav { padding: 16px 16px; gap: 8px; }
+    .nav-logo { min-width: 24px; font-size: 12px; }
+    .nav-links { gap: 10px; flex-wrap: nowrap; }
+    .nav-links a { font-size: 9px; letter-spacing: 0.06em; }
+    .theme-btn { width: 28px; height: 28px; flex-shrink: 0; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .thumb-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .gallery-hero { padding: 130px 0 56px; }
+    .lightbox { padding: 20px; }
+    .lightbox-close { top: 16px; right: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo" id="navLogo"><span class="cursor-blink"></span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#categories">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li>
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<div id="page-home" class="page active">
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg-text" id="designText">
+    <span class="dl">D</span><span class="dl">E</span><span class="dl">S</span><span class="dl">I</span><span class="dl">G</span><span class="dl">N</span>
+  </div>
+
+  <!-- Left stats -->
+  <div class="hero-stats-left">
+    <div class="stat-left">
+      <span class="stat-num">SF</span>
+      <span class="stat-label">Short Form Content</span>
+    </div>
+    <div class="stat-left">
+      <span class="stat-num">TH</span>
+      <span class="stat-label">Thumbnails</span>
+    </div>
+  </div>
+
+  <!-- Right stats -->
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">GFX</span>
+      <span class="stat-label">Graphic Design</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">IL</span>
+      <span class="stat-label">Illustration</span>
+    </div>
+
+  </div>
+
+  <div class="container">
+    <div class="hero-eyebrow">Portfolio <span id="yearTyper"></span></div>
+    <h1>
+      Design that<br>
+      <em>refuses</em><br>
+      to blend in.
+    </h1>
+    <p class="hero-tagline">
+      Graphic designer working at the intersection of UI, illustration, and visual storytelling. Based in India.
+    </p>
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary">View Work →</a>
+      <a href="#contact" class="btn-secondary">Let's talk</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+
+
+<!-- Work -->
+<section id="work">
+  <div class="container">
+    <div class="section-label reveal">Selected Work</div>
+    <h2 class="reveal reveal-delay-1">Projects that<br><em>speak first.</em></h2>
+  </div>
+
+  <div class="work-grid">
+    <div class="work-item wide reveal reveal-delay-1">
+      <div class="work-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+        <div class="ph-art" style="font-size: clamp(60px, 8vw, 120px);">Il.</div>
+      </div>
+      <div class="work-number">01</div>
+      <div class="work-overlay">
+        <div class="work-category">Illustration</div>
+        <div class="work-title">Digital Art Works</div>
+        <div class="work-desc">Hand-crafted illustration for editorial use.</div>
+      </div>
+    </div>
+
+    <div class="work-item wide reveal reveal-delay-2">
+      <div class="work-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+        <div class="ph-art" style="font-size: clamp(60px, 8vw, 120px);">GFX</div>
+      </div>
+      <div class="work-number">03</div>
+      <div class="work-overlay">
+        <div class="work-category">GFX — Graphic Design</div>
+        <div class="work-title">Graphic Design Works</div>
+        <div class="work-desc">Posters, social media graphics, and visual content crafted to stand out.</div>
+      </div>
+    </div>
+
+    <div class="work-item reveal">
+      <div class="work-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+        <div class="ph-art">Pr.</div>
+      </div>
+      <div class="work-number">04</div>
+      <div class="work-overlay">
+        <div class="work-category">Print</div>
+        <div class="work-title">Apparel Designs</div>
+        <div class="work-desc">Poster series exploring typographic tension.</div>
+      </div>
+    </div>
+
+    <div class="work-item reveal reveal-delay-1">
+      <div class="work-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+        <div class="ph-art">VE.</div>
+      </div>
+      <div class="work-number">05</div>
+      <div class="work-overlay">
+        <div class="work-category">Video Editing</div>
+        <div class="work-title">Video Edits</div>
+        <div class="work-desc">Short form edits, reels, and motion content cut for maximum impact.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Categories -->
+<section id="categories">
+  <div class="container">
+    <div class="section-label reveal">What I Do</div>
+    <h2 class="reveal reveal-delay-1">Four ways I<br><em>work with you.</em></h2>
+
+    <div class="categories-grid reveal reveal-delay-2">
+      <a class="category-card" href="#illustrations" data-page-link="illustrations">
+        <div class="cat-num">01</div>
+        <div class="cat-name">Illustrations</div>
+        <div class="cat-desc">Hand-drawn and digital illustration — characters, scenes, and visual storytelling.</div>
+      </a>
+      <a class="category-card" href="#apparel" data-page-link="apparel">
+        <div class="cat-num">02</div>
+        <div class="cat-name">Apparel</div>
+        <div class="cat-desc">Graphics and identities for fashion and merchandise.</div>
+      </a>
+      <a class="category-card" href="#gfx" data-page-link="gfx">
+        <div class="cat-num">03</div>
+        <div class="cat-name">Graphic Design (GFX)</div>
+        <div class="cat-desc">Visuals that communicate boldly — from social graphics to full design systems.</div>
+      </a>
+      <a class="category-card" href="#video-edits" data-page-link="video-edits">
+        <div class="cat-num">04</div>
+        <div class="cat-name">Video Edits</div>
+        <div class="cat-desc">Short form content, reels, and motion edits cut for impact.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <div class="about-visual-inner">
+          <div class="about-monogram">NS</div>
+        </div>
+        <div class="about-accent-bar"></div>
+        <div class="about-label">Navkirat Singh</div>
+      </div>
+
+      <div class="about-content">
+        <div class="section-label reveal">About Me</div>
+        <p class="about-intro reveal reveal-delay-1">"I design with intention — where form and feeling meet."</p>
+        <p class="about-body reveal reveal-delay-2">
+          I'm Navkirat Singh, a graphic designer studying at college and working at the intersection of UI, illustration, and visual storytelling. I believe the best design doesn't announce itself — it just feels right.<br><br>
+          I'm drawn to work that has personality. Whether it's a digital interface or a poster series, I care about the details that make someone stop and look twice.
+        </p>
+        <div class="about-tags reveal reveal-delay-2">
+          <span class="tag">UI / UX</span>
+          <span class="tag">Illustration</span>
+          <span class="tag">Print</span>
+          <span class="tag">Typography</span>
+        </div>
+        <div class="about-details reveal reveal-delay-3">
+          <div class="detail-item">
+            <div class="detail-label">Languages</div>
+            <div class="detail-value">Hindi, English, Python</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Based In</div>
+            <div class="detail-value">India</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Currently</div>
+            <div class="detail-value">Open to work</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">Achievement</div>
+            <div class="detail-value">Failed NEET (proudly)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-label reveal">Contact</div>
+        <h2 class="reveal reveal-delay-1">Let's make<br><em>something real.</em></h2>
+        <p class="contact-body reveal reveal-delay-2">
+          Whether you have a brief, a vague idea, or just want to talk design — I'm here for it. Response within 24 hours.
+        </p>
+        <a href="mailto:hello@navkiratsingh.com" class="contact-email reveal reveal-delay-2">
+          hello@navkiratsingh.com
+        </a>
+        <div class="social-links reveal reveal-delay-3">
+          <a href="#" class="social-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="#" class="social-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="social-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-area reveal reveal-delay-1">
+        <div class="form-field">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="Full name">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="you@example.com">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" placeholder="Tell me about your project..."></textarea>
+        </div>
+        <button class="form-submit">Send Message →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- /page-home -->
+
+<div id="page-illustrations" class="page">
+<!-- Gallery hero -->
+<section class="gallery-hero">
+  <div class="container">
+    <a href="#categories" class="gallery-back reveal" data-page-link="home">← Back to portfolio</a>
+    <div class="gallery-num reveal">01 / 04</div>
+    <h1 class="reveal reveal-delay-1">Hand-drawn and digital illustration —<br><em>characters, scenes, and stories.</em></h1>
+    <p class="reveal reveal-delay-2">Hand-drawn and digital illustration — characters, scenes, and visual storytelling.</p>
+  </div>
+</section>
+
+<!-- Thumbnail grid -->
+<section class="thumb-section">
+  <div class="container">
+    <div class="section-label reveal">Selected Pieces</div>
+    <div class="thumb-grid">
+      <div data-category="illustrations" class="thumb reveal reveal-delay-2" data-index="1" tabindex="0" role="button" aria-label="Open design 01">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">01</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-3" data-index="2" tabindex="0" role="button" aria-label="Open design 02">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">02</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-1" data-index="3" tabindex="0" role="button" aria-label="Open design 03">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">03</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-2" data-index="4" tabindex="0" role="button" aria-label="Open design 04">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">04</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-3" data-index="5" tabindex="0" role="button" aria-label="Open design 05">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">05</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-1" data-index="6" tabindex="0" role="button" aria-label="Open design 06">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">06</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-2" data-index="7" tabindex="0" role="button" aria-label="Open design 07">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">07</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-3" data-index="8" tabindex="0" role="button" aria-label="Open design 08">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">08</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-1" data-index="9" tabindex="0" role="button" aria-label="Open design 09">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">09</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-2" data-index="10" tabindex="0" role="button" aria-label="Open design 10">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">10</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-3" data-index="11" tabindex="0" role="button" aria-label="Open design 11">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">11</div>
+      </div>
+      <div data-category="illustrations" class="thumb reveal reveal-delay-1" data-index="12" tabindex="0" role="button" aria-label="Open design 12">
+        <div class="thumb-placeholder" style="background: linear-gradient(220deg, #160f0e 0%, #261915 100%);">
+          <div class="ph-art thumb-mark">Il.</div>
+        </div>
+        <div class="thumb-number">12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="page-apparel" class="page">
+<!-- Gallery hero -->
+<section class="gallery-hero">
+  <div class="container">
+    <a href="#categories" class="gallery-back reveal" data-page-link="home">← Back to portfolio</a>
+    <div class="gallery-num reveal">02 / 04</div>
+    <h1 class="reveal reveal-delay-1">Graphics and identities for<br><em>fashion and merchandise.</em></h1>
+    <p class="reveal reveal-delay-2">Graphics and identities for fashion and merchandise.</p>
+  </div>
+</section>
+
+<!-- Thumbnail grid -->
+<section class="thumb-section">
+  <div class="container">
+    <div class="section-label reveal">Selected Pieces</div>
+    <div class="thumb-grid">
+      <div data-category="apparel" class="thumb reveal reveal-delay-2" data-index="1" tabindex="0" role="button" aria-label="Open design 01">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">01</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-3" data-index="2" tabindex="0" role="button" aria-label="Open design 02">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">02</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-1" data-index="3" tabindex="0" role="button" aria-label="Open design 03">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">03</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-2" data-index="4" tabindex="0" role="button" aria-label="Open design 04">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">04</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-3" data-index="5" tabindex="0" role="button" aria-label="Open design 05">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">05</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-1" data-index="6" tabindex="0" role="button" aria-label="Open design 06">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">06</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-2" data-index="7" tabindex="0" role="button" aria-label="Open design 07">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">07</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-3" data-index="8" tabindex="0" role="button" aria-label="Open design 08">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">08</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-1" data-index="9" tabindex="0" role="button" aria-label="Open design 09">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">09</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-2" data-index="10" tabindex="0" role="button" aria-label="Open design 10">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">10</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-3" data-index="11" tabindex="0" role="button" aria-label="Open design 11">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">11</div>
+      </div>
+      <div data-category="apparel" class="thumb reveal reveal-delay-1" data-index="12" tabindex="0" role="button" aria-label="Open design 12">
+        <div class="thumb-placeholder" style="background: linear-gradient(200deg, #0d1110 0%, #111a15 100%);">
+          <div class="ph-art thumb-mark">Ap.</div>
+        </div>
+        <div class="thumb-number">12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="page-gfx" class="page">
+<!-- Gallery hero -->
+<section class="gallery-hero">
+  <div class="container">
+    <a href="#categories" class="gallery-back reveal" data-page-link="home">← Back to portfolio</a>
+    <div class="gallery-num reveal">03 / 04</div>
+    <h1 class="reveal reveal-delay-1">Visuals that communicate boldly —<br><em>social graphics to full systems.</em></h1>
+    <p class="reveal reveal-delay-2">Visuals that communicate boldly — from social graphics to full design systems.</p>
+  </div>
+</section>
+
+<!-- Thumbnail grid -->
+<section class="thumb-section">
+  <div class="container">
+    <div class="section-label reveal">Selected Pieces</div>
+    <div class="thumb-grid">
+      <div data-category="gfx" class="thumb reveal reveal-delay-2" data-index="1" tabindex="0" role="button" aria-label="Open design 01">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">01</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-3" data-index="2" tabindex="0" role="button" aria-label="Open design 02">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">02</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-1" data-index="3" tabindex="0" role="button" aria-label="Open design 03">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">03</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-2" data-index="4" tabindex="0" role="button" aria-label="Open design 04">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">04</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-3" data-index="5" tabindex="0" role="button" aria-label="Open design 05">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">05</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-1" data-index="6" tabindex="0" role="button" aria-label="Open design 06">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">06</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-2" data-index="7" tabindex="0" role="button" aria-label="Open design 07">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">07</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-3" data-index="8" tabindex="0" role="button" aria-label="Open design 08">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">08</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-1" data-index="9" tabindex="0" role="button" aria-label="Open design 09">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">09</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-2" data-index="10" tabindex="0" role="button" aria-label="Open design 10">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">10</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-3" data-index="11" tabindex="0" role="button" aria-label="Open design 11">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">11</div>
+      </div>
+      <div data-category="gfx" class="thumb reveal reveal-delay-1" data-index="12" tabindex="0" role="button" aria-label="Open design 12">
+        <div class="thumb-placeholder" style="background: linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%);">
+          <div class="ph-art thumb-mark">GFX</div>
+        </div>
+        <div class="thumb-number">12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div id="page-video-edits" class="page">
+<!-- Gallery hero -->
+<section class="gallery-hero">
+  <div class="container">
+    <a href="#categories" class="gallery-back reveal" data-page-link="home">← Back to portfolio</a>
+    <div class="gallery-num reveal">04 / 04</div>
+    <h1 class="reveal reveal-delay-1">Short form content, reels,<br><em>and motion cut for impact.</em></h1>
+    <p class="reveal reveal-delay-2">Short form content, reels, and motion edits cut for impact.</p>
+  </div>
+</section>
+
+<!-- Thumbnail grid -->
+<section class="thumb-section">
+  <div class="container">
+    <div class="section-label reveal">Selected Pieces</div>
+    <div class="thumb-grid">
+      <div data-category="video-edits" class="thumb reveal reveal-delay-2" data-index="1" tabindex="0" role="button" aria-label="Open design 01">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">01</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-3" data-index="2" tabindex="0" role="button" aria-label="Open design 02">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">02</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-1" data-index="3" tabindex="0" role="button" aria-label="Open design 03">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">03</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-2" data-index="4" tabindex="0" role="button" aria-label="Open design 04">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">04</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-3" data-index="5" tabindex="0" role="button" aria-label="Open design 05">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">05</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-1" data-index="6" tabindex="0" role="button" aria-label="Open design 06">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">06</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-2" data-index="7" tabindex="0" role="button" aria-label="Open design 07">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">07</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-3" data-index="8" tabindex="0" role="button" aria-label="Open design 08">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">08</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-1" data-index="9" tabindex="0" role="button" aria-label="Open design 09">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">09</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-2" data-index="10" tabindex="0" role="button" aria-label="Open design 10">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">10</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-3" data-index="11" tabindex="0" role="button" aria-label="Open design 11">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">11</div>
+      </div>
+      <div data-category="video-edits" class="thumb reveal reveal-delay-1" data-index="12" tabindex="0" role="button" aria-label="Open design 12">
+        <div class="thumb-placeholder" style="background: linear-gradient(135deg, #14100d 0%, #1e1918 100%);">
+          <div class="ph-art thumb-mark">VE.</div>
+        </div>
+        <div class="thumb-number">12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- Lightbox (shared across all gallery pages) -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous design">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+  </button>
+  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next design">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </button>
+  <div class="lightbox-inner">
+    <div class="lightbox-art" id="lightboxArt">
+      <div class="ph-art" id="lightboxMark"></div>
+    </div>
+    <div>
+      <div class="lightbox-meta-label" id="lightboxLabel"></div>
+      <div class="lightbox-title" id="lightboxTitle"></div>
+      <div class="lightbox-desc" id="lightboxDesc">Design slot reserved — the real piece will be added here, with its own title and short description.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span class="footer-copy">© 2025 <span>Navkirat Singh</span>. Built with intent.</span>
+  <a href="#hero" class="footer-back">↑ Back to top</a>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, .work-item, .category-card, .thumb').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width = '16px'; cursor.style.height = '16px'; ring.style.width = '48px'; ring.style.height = '48px'; ring.style.opacity = '0.8'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width = '8px'; cursor.style.height = '8px'; ring.style.width = '32px'; ring.style.height = '32px'; ring.style.opacity = '0.5'; });
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
+
+  // Theme toggle
+  const themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    document.documentElement.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Typewriter for nav logo
+  const logoEl = document.getElementById('navLogo');
+  const logoText = 'N.Singh';
+  const logoAccentChar = '.';
+  let li = 0;
+  function typewriterStep() {
+    const typed = logoText.slice(0, li);
+    let html = '';
+    for (let c of typed) {
+      html += c === logoAccentChar ? `<span>${c}</span>` : c;
+    }
+    html += '<span class="cursor-blink"></span>';
+    logoEl.innerHTML = html;
+    if (li < logoText.length) {
+      li++;
+      setTimeout(typewriterStep, 110);
+    } else {
+      // Loop: pause then erase then retype
+      setTimeout(() => {
+        eraseStep();
+      }, 3500);
+    }
+  }
+  function eraseStep() {
+    if (li > 0) {
+      li--;
+      const typed = logoText.slice(0, li);
+      let html = '';
+      for (let c of typed) {
+        html += c === logoAccentChar ? `<span>${c}</span>` : c;
+      }
+      html += '<span class="cursor-blink"></span>';
+      logoEl.innerHTML = html;
+      setTimeout(eraseStep, 60);
+    } else {
+      setTimeout(typewriterStep, 400);
+    }
+  }
+  setTimeout(typewriterStep, 600);
+
+  // Year typewriter loop: 2023 → 2024 → 2025 → 2026 → repeat
+  const yearEl = document.getElementById('yearTyper');
+  const years = ['2023', '2024', '2025', '2026'];
+  let yi = 0, yc = 0, yTyping = true;
+
+  function yearStep() {
+    const word = years[yi];
+    if (yTyping) {
+      yc++;
+      yearEl.textContent = word.slice(0, yc);
+      if (yc < word.length) {
+        setTimeout(yearStep, 110);
+      } else {
+        // Pause at full year, then erase
+        const pause = yi === years.length - 1 ? 2200 : 900;
+        setTimeout(() => { yTyping = false; yearStep(); }, pause);
+      }
+    } else {
+      yc--;
+      yearEl.textContent = word.slice(0, yc);
+      if (yc > 0) {
+        setTimeout(yearStep, 60);
+      } else {
+        // Move to next year (loop back after 2026)
+        yi = (yi + 1) % years.length;
+        yTyping = true;
+        setTimeout(yearStep, 300);
+      }
+    }
+  }
+  setTimeout(yearStep, 1200);
+
+  // ── Page switching (single-page app behavior) ──
+  const pages = document.querySelectorAll('.page');
+  function showPage(slug, opts) {
+    opts = opts || {};
+    pages.forEach(p => p.classList.toggle('active', p.id === 'page-' + slug));
+    if (!opts.skipScrollTop) window.scrollTo(0, 0);
+    if (opts.pushHash !== false) {
+      history.replaceState(null, '', slug === 'home' ? '#' : '#' + slug);
+    }
+    // Retrigger reveal animations for the page just shown (they may not have
+    // fired yet since the page was display:none and never intersected).
+    requestAnimationFrame(() => {
+      document.querySelector('#page-' + slug).querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  }
+
+  document.querySelectorAll('[data-page-link]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      showPage(link.getAttribute('data-page-link'));
+    });
+  });
+
+  // Support direct links / back-forward with #illustrations etc.
+  function routeFromHash() {
+    const slug = (location.hash || '').replace('#', '');
+    const validSlugs = ['illustrations', 'apparel', 'gfx', 'video-edits'];
+    if (validSlugs.includes(slug)) {
+      showPage(slug, { pushHash: false });
+    } else if (slug === '' ) {
+      showPage('home', { pushHash: false, skipScrollTop: true });
+    }
+  }
+  window.addEventListener('popstate', routeFromHash);
+  routeFromHash();
+
+  // Smooth scroll for in-page section anchors only (not page-link hashes)
+  document.querySelectorAll('a[href^="#"]:not([data-page-link])').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        // If the target lives on the home page and we're not currently
+        // showing it, switch to home first, then scroll.
+        const homePage = document.getElementById('page-home');
+        if (homePage.contains(target) && !homePage.classList.contains('active')) {
+          showPage('home', { skipScrollTop: true });
+        }
+        requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth' }));
+      }
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Lightbox (shared across all gallery pages, driven by data-category) ──
+  const CATEGORY_INFO = {
+    'illustrations': { num: '01', mark: 'Il.', name: 'Illustrations', gradient: 'linear-gradient(220deg, #160f0e 0%, #261915 100%)' },
+    'apparel':       { num: '02', mark: 'Ap.', name: 'Apparel',       gradient: 'linear-gradient(200deg, #0d1110 0%, #111a15 100%)' },
+    'gfx':           { num: '03', mark: 'GFX', name: 'Graphic Design', gradient: 'linear-gradient(90deg, #130f0a 0%, #1e1510 50%, #120e0a 100%)' },
+    'video-edits':   { num: '04', mark: 'VE.', name: 'Video Edits',   gradient: 'linear-gradient(135deg, #14100d 0%, #1e1918 100%)' },
+  };
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxArt = document.getElementById('lightboxArt');
+  const lightboxMark = document.getElementById('lightboxMark');
+  const lightboxLabel = document.getElementById('lightboxLabel');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  let activeCategory = null;
+  let activeIndex = 0;
+
+  function thumbsForCategory(slug) {
+    return Array.from(document.querySelectorAll('.thumb[data-category="' + slug + '"]'));
+  }
+
+  function openLightbox(slug, index) {
+    activeCategory = slug;
+    activeIndex = index;
+    const info = CATEGORY_INFO[slug];
+    const n = String(index + 1).padStart(2, '0');
+    lightboxArt.style.background = info.gradient;
+    lightboxMark.textContent = info.mark;
+    lightboxLabel.textContent = info.num + ' — ' + info.name + ' / ' + n;
+    lightboxTitle.textContent = 'Untitled piece ' + n;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function showRelative(delta) {
+    const thumbs = thumbsForCategory(activeCategory);
+    activeIndex = (activeIndex + delta + thumbs.length) % thumbs.length;
+    openLightbox(activeCategory, activeIndex);
+  }
+
+  document.querySelectorAll('.thumb').forEach(thumb => {
+    const slug = thumb.getAttribute('data-category');
+    const index = parseInt(thumb.getAttribute('data-index'), 10) - 1;
+    thumb.addEventListener('click', () => openLightbox(slug, index));
+    thumb.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(slug, index); }
+    });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', () => showRelative(-1));
+  document.getElementById('lightboxNext').addEventListener('click', () => showRelative(1));
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') showRelative(-1);
+    if (e.key === 'ArrowRight') showRelative(1);
+  });
+</script>
+</body>
+</html>

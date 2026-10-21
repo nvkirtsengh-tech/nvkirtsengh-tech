@@ -604,6 +604,9 @@
     letter-spacing: -0.05em;
     user-select: none;
   }
+  .about-monogram img {
+      width: 100%;
+  }
   .about-accent-bar {
     position: absolute;
     bottom: 0;
